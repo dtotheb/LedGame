@@ -54,8 +54,10 @@ while True:
 
     for event in pygame.event.get():
         if event.type == QUIT:
+            grid.clear()
             pygame.quit()
             sys.exit()
+
         if event.type == MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             dot = findDot(pos, dots)
