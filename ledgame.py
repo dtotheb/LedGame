@@ -16,7 +16,7 @@ pygame.mouse.set_visible(1)
 
 background = pygame.Surface(screen.get_size())
 background = background.convert()
-background.fill((250, 250, 250))
+background.fill((5, 5, 5))
 
 
 #setup the led grid
@@ -64,10 +64,10 @@ while True:
             if dot:
                 if dot.lit:
                     dot.lit = False
-                    grid.setPixel(dot.pos[0],dot.pos[1], 0)
+                    grid.setPixel(dot.pos[0], dot.pos[1], 0)
                 else:
                     dot.lit = True
-                    grid.setPixel(dot.pos[0],dot.pos[1])
+                    grid.setPixel(dot.pos[0], dot.pos[1])
 
     #update the display
     drawEverything()
