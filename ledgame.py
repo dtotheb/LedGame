@@ -1,8 +1,10 @@
 #!/usr/bin/python
 import sys
 import pygame
+import math
 from pygame.locals import *
 from dot import Dot
+from Adafruit_8x8 import EightByEight
 
 
 #setup pygame
@@ -15,6 +17,10 @@ pygame.mouse.set_visible(1)
 background = pygame.Surface(screen.get_size())
 background = background.convert()
 background.fill((250, 250, 250))
+
+
+#setup the led grid
+grid = EightByEight(address=0x70)
 
 
 #setup the dots
@@ -35,6 +41,15 @@ def drawEverything():
     pygame.display.flip()
 
 
+def findDot(clicked_pos, dots):
+    x = clicked_pos[0]
+    y = clicked_pos[1]
+    for dot in dots:
+        if math.hypot(dot.pos_x - x, dot.pos_y - y) <= dot.radius:
+            return dot
+    return None
+
+
 while True:
 
     for event in pygame.event.get():
@@ -43,6 +58,14 @@ while True:
             sys.exit()
         if event.type == MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
+            dot = findDot(pos, dots)
+            if dot:
+                if dot.lit:
+                    dot.lit = False
+                    grid.setPixel(dot.pos[0],dot.pos[1], 0)
+                else:
+                    dot.lit = True
+                    grid.setPixel(dot.pos[0],dot.pos[1])
 
     #update the display
     drawEverything()

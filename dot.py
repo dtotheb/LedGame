@@ -8,10 +8,10 @@ class Dot():
         self.radius = radius
         self.screen = pygame.display.get_surface()
         self.color = (0, 250, 0)
+        self.pos_x = int(self.pos[0] * (self.radius * 2)) + (self.radius)
+        self.pos_y = int(self.pos[1] * (self.radius * 2)) + (self.radius)
 
     def draw(self):
-        pos_x = int(self.pos[0] * (self.radius * 2)) + (self.radius)
-        pos_y = int(self.pos[1] * (self.radius * 2)) + (self.radius)
 
         if self.lit:
             thickness = 0
@@ -20,6 +20,6 @@ class Dot():
 
         pygame.draw.circle(self.screen,
                          self.color,
-                        (pos_x, pos_y),
+                        (self.pos_x, self.pos_y),
                         self.radius,
                         thickness)
