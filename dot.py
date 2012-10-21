@@ -23,3 +23,12 @@ class Dot():
                         (self.pos_x, self.pos_y),
                         self.radius,
                         thickness)
+
+    def clicked(self, grid):
+
+        if self.lit:
+            self.lit = False
+            grid.setPixel(self.pos[0], self.pos[1], 0)
+        else:
+            self.lit = True
+            grid.setPixel(self.pos[0], self.pos[1])

@@ -49,6 +49,11 @@ def findDot(clicked_pos, dots):
             return dot
     return None
 
+def handleClick():
+    pos = pygame.mouse.get_pos()
+    dot = findDot(pos, dots)
+    if dot:
+        dot.clicked(grid)
 
 while True:
 
@@ -59,15 +64,9 @@ while True:
             sys.exit()
 
         if event.type == MOUSEBUTTONDOWN:
-            pos = pygame.mouse.get_pos()
-            dot = findDot(pos, dots)
-            if dot:
-                if dot.lit:
-                    dot.lit = False
-                    grid.setPixel(dot.pos[0], dot.pos[1], 0)
-                else:
-                    dot.lit = True
-                    grid.setPixel(dot.pos[0], dot.pos[1])
+            handleClick()
+
+
 
     #update the display
     drawEverything()
