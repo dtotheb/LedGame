@@ -8,37 +8,6 @@ from Adafruit_8x8 import EightByEight
 from Button import Button
 
 
-#setup pygame
-pygame.init()
-pygame.font.init()
-
-screen = pygame.display.set_mode((440, 500), 0, 32)
-pygame.display.set_caption('LED GAME')
-pygame.mouse.set_visible(1)
-
-background = pygame.Surface(screen.get_size())
-background = background.convert()
-background.fill((5, 5, 5))
-
-
-#setup the led grid
-grid = EightByEight(address=0x70)
-
-
-#setup the dots
-dots = []
-for x in range(0, 8):
-    for y in range(0, 8):
-        dot = Dot(pos=(x, y))
-        dots.append(dot)
-
-#setup the button
-buttons = []
-printButton = Button('Print', pos=(40, 450))
-buttons.append(printButton)
-
-
-
 def drawEverything():
     """
     draws Everything
@@ -79,10 +48,10 @@ def handleClick():
         dot.clicked(grid)
     for butt in buttons:
         if butt.rect.collidepoint(pos):
-            printDotPoints(dots)
+            butt.click()
 
 
-def printDotPoints(dots):
+def printDotPoints():
     """
     Prints out the points for all the lit dots
     """
@@ -92,11 +61,59 @@ def printDotPoints(dots):
             points.append(dot.pos)
     print points
 
+def clearGrid():
+    """
+    Clears the LED grid and sets all the dots.lit back to False
+    """
+    grid.clear()
+    for dot in dots:
+        dot.lit = False
+
+
+
+
+#setup pygame
+pygame.init()
+pygame.font.init()
+
+screen = pygame.display.set_mode((440, 500), 0, 32)
+pygame.display.set_caption('LED GAME')
+pygame.mouse.set_visible(1)
+
+background = pygame.Surface(screen.get_size())
+background = background.convert()
+background.fill((5, 5, 5))
+
+
+#setup the led grid
+grid = EightByEight(address=0x70)
+
+
+#setup the dots
+dots = []
+for x in range(0, 8):
+    for y in range(0, 8):
+        dot = Dot(pos=(x, y))
+        dots.append(dot)
+
+#setup the buttons
+buttons = []
+
+printButton = Button('Print', action=printDotPoints, pos=(40, 450))
+buttons.append(printButton)
+
+clearButton = Button('Clear', action=clearGrid, pos=(240, 450))
+buttons.append(clearButton)
+
+
+
+
+
 while True:
 
     for event in pygame.event.get():
         if event.type == QUIT:
-            grid.clear()
+            clearGrid()
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN:

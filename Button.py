@@ -2,9 +2,10 @@ import pygame
 
 
 class Button():
-    def __init__(self, text, pos, size=(100, 30), color=(0, 0, 200), hilight=(0, 200, 200)):
+    def __init__(self, text, pos, action=None, size=(100, 30), color=(0, 0, 200), hilight=(0, 200, 200)):
         """
         Creates a button
+            action is the function that gets called on click
         """
         self.normal = color
         self.hilight = hilight
@@ -16,6 +17,8 @@ class Button():
         w, h = self.font.size(text)  # size of font image
         self.text_pos = (pos[0] + size[0] / 2 - w / 2, pos[1] + size[1] / 2 - h / 2)  # center text
         self.buttondown = False
+        self.action = action
+        
 
     def draw(self, surface):
         """
@@ -34,3 +37,10 @@ class Button():
         else:
             pygame.draw.rect(surface, self.normal, self.rect)
         surface.blit(self.text_image, self.text_pos)
+
+    def click(self):
+        """
+        Calls the button's action if one exists
+        """
+        if self.action:
+            self.action()
