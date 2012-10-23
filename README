@@ -1,2 +1,11 @@
-simple gui for drawing on an 8x8 Led array from adafruit
-uses pygame and the AdaFruit libs for talking to the led array
+simple gui for drawing on an 8x8 Led array
+
+intended for use on a RaspBerry pi with a 
+Adafruit Mini 8x8 LED Matrix w/I2C hookedup
+
+uses pygame to draw the GUI and handle click events
+uses AdaFruit Libraries for setting pixels on the LED
+uses json for reading/writing to a file
+
+needs to be run with sudo to access the GPIO ie.
+sudo python ledgame.py
