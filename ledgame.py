@@ -2,6 +2,7 @@
 import sys
 import pygame
 import math
+import json
 from pygame.locals import *
 from dot import Dot
 from Adafruit_8x8 import EightByEight
@@ -51,15 +52,35 @@ def handleClick():
             butt.click()
 
 
-def printDotPoints():
+def getLitDots():
     """
-    Prints out the points for all the lit dots
+    Returns a list of points of the Lit Dots
     """
+
     points = []
     for dot in dots:
         if dot.lit:
             points.append(dot.pos)
-    print points
+    return points
+
+
+def setLitDots(points):
+    """
+    Runs thru the list of points and clicks the same dots
+    """
+    for p in points:
+        pos = (p[0], p[1])
+        for d in dots:
+            if d.pos == pos:
+                d.clicked(grid)
+
+
+def printDotPoints():
+    """
+    Prints out the points for all the lit dots
+    """
+    print getLitDots()
+
 
 def clearGrid():
     """
@@ -70,7 +91,22 @@ def clearGrid():
         dot.lit = False
 
 
+def saveGrid():
+    """
+    Saves the grid by writing it out as json
+    """
+    file = open('save.txt', 'w')
+    json.dump(getLitDots(), file)
+    file.close()
 
+
+def loadGrid():
+    """
+    Loads the grid from file
+    """
+    file = open('save.txt', 'r')
+    points = json.load(file)
+    setLitDots(points)
 
 #setup pygame
 pygame.init()
@@ -99,13 +135,17 @@ for x in range(0, 8):
 #setup the buttons
 buttons = []
 
-printButton = Button('Print', action=printDotPoints, pos=(40, 450))
+printButton = Button('Print', action=printDotPoints, pos=(10, 450))
 buttons.append(printButton)
 
-clearButton = Button('Clear', action=clearGrid, pos=(240, 450))
+clearButton = Button('Clear', action=clearGrid, pos=(110, 450))
 buttons.append(clearButton)
 
+saveButton = Button('Save', action=saveGrid, pos=(210, 450))
+buttons.append(saveButton)
 
+loadButton = Button('Load', action=loadGrid, pos=(310, 450))
+buttons.append(loadButton)
 
 
 
