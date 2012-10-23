@@ -1,0 +1,2 @@
+simple gui for drawing on an 8x8 Led array from adafruit
+uses pygame and the AdaFruit libs for talking to the led array
