@@ -5,10 +5,12 @@ import math
 from pygame.locals import *
 from dot import Dot
 from Adafruit_8x8 import EightByEight
+from Button import Button
 
 
 #setup pygame
 pygame.init()
+pygame.font.init()
 
 screen = pygame.display.set_mode((440, 500), 0, 32)
 pygame.display.set_caption('LED GAME')
@@ -30,6 +32,12 @@ for x in range(0, 8):
         dot = Dot(pos=(x, y))
         dots.append(dot)
 
+#setup the button
+buttons = []
+printButton = Button('Print', pos=(40, 450))
+buttons.append(printButton)
+
+
 
 def drawEverything():
     """
@@ -39,6 +47,10 @@ def drawEverything():
     #draw the dots
     for dot in dots:
         dot.draw()
+
+    #draw the buttons
+    for button in buttons:
+        button.draw(screen)
 
     #flip the screen
     pygame.display.flip()
@@ -65,6 +77,9 @@ def handleClick():
     dot = findDot(pos, dots)
     if dot:
         dot.clicked(grid)
+    for butt in buttons:
+        if butt.rect.collidepoint(pos):
+            printDotPoints(dots)
 
 
 def printDotPoints(dots):
