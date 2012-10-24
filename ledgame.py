@@ -104,6 +104,7 @@ def loadGrid():
     """
     Loads the grid from file
     """
+    clearGrid()
     file = open('save.txt', 'r')
     points = json.load(file)
     setLitDots(points)
