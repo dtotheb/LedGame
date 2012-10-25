@@ -69,10 +69,9 @@ def setLitDots(points):
     Runs thru the list of points and clicks the same dots
     """
     for p in points:
-        pos = (p[0], p[1])
-        for d in dots:
-            if d.pos == pos:
-                d.clicked(grid)
+        index = (p[0] * 8) + p[1]
+        d = dots[index]
+        d.clicked(grid)
 
 
 def printDotPoints():
@@ -95,7 +94,8 @@ def saveGrid():
     """
     Saves the grid by writing it out as json
     """
-    file = open('save.txt', 'w')
+    print 'Save'
+    file = open('./saves/save.txt', 'w')
     json.dump(getLitDots(), file)
     file.close()
 
@@ -104,8 +104,9 @@ def loadGrid():
     """
     Loads the grid from file
     """
+    print 'Load'
     clearGrid()
-    file = open('save.txt', 'r')
+    file = open('./saves/save.txt', 'r')
     points = json.load(file)
     setLitDots(points)
 
